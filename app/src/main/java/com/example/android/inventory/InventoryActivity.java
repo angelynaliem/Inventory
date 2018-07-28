@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.android.inventory.data.InventoryContract.InventoryEntry;
@@ -26,7 +27,6 @@ public class InventoryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         displayDatabaseInfo();
-
     }
 
     private void displayDatabaseInfo() {
@@ -39,16 +39,18 @@ public class InventoryActivity extends AppCompatActivity {
                 InventoryEntry.COLUMN_INVENTORY_PRICE,
                 InventoryEntry.COLUMN_INVENTORY_QUANTITY,
                 InventoryEntry.COLUMN_INVENTORY_SUPPLIER_NAME,
-                InventoryEntry.COLUMN_INVENTORY_SUPPLIER_PHONE_NUMBER };
+                InventoryEntry.COLUMN_INVENTORY_SUPPLIER_PHONE_NUMBER};
 
         Cursor cursor = db.query(
                 InventoryEntry.TABLE_NAME,
                 projection,
                 InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME,
-               null,
+                null,
                 null,
                 null,
                 null);
+
+        Log.d("LOG_TAG", "Total rows: " + cursor.getCount());
 
         TextView displayView = findViewById(R.id.text_view_inventory);
 
@@ -88,16 +90,17 @@ public class InventoryActivity extends AppCompatActivity {
 
         }
 
-}
+    }
 
-private void insertInventory() {
+    private void insertInventory() {
 
-    SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-    ContentValues values = new ContentValues();
-    values.put(InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME, "Product A");
-    values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 0);
+        ContentValues values = new ContentValues();
+        values.put(InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME, "Product A");
+        values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 0);
 
-    long newRowId = db.insert(InventoryEntry.TABLE_NAME, null, values);
-}
+        long newRowId = db.insert(InventoryEntry.TABLE_NAME, null, values);
+
+    }
 }
