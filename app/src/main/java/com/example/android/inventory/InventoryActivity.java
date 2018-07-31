@@ -26,6 +26,7 @@ public class InventoryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        insertInventory();
         displayDatabaseInfo();
     }
 
@@ -50,12 +51,12 @@ public class InventoryActivity extends AppCompatActivity {
                 null,
                 null);
 
-        Log.d("LOG_TAG", "Total rows: " + cursor.getCount());
+        Log.d("LOG_TAG", getString(R.string.total_rows) + cursor.getCount());
 
         TextView displayView = findViewById(R.id.text_view_inventory);
 
         try {
-            displayView.setText("The inventory table contains " + cursor.getCount() + " products.\n\n");
+            displayView.setText(getString(R.string.inventory_count) + cursor.getCount() + " products.\n\n");
             displayView.append(InventoryEntry._ID + " - " +
                     InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME + " - " +
                     InventoryEntry.COLUMN_INVENTORY_PRICE + " - " +
@@ -97,10 +98,19 @@ public class InventoryActivity extends AppCompatActivity {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME, "Product A");
-        values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 0);
+        values.put(InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME, getString(R.string.product_a));
+        values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 10);
+        values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, 1);
+        values.put(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_NAME, getString(R.string.supplier_a));
+        values.put(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_PHONE_NUMBER, 1234567890);
 
         long newRowId = db.insert(InventoryEntry.TABLE_NAME, null, values);
+
+        if (newRowId != -1) {
+            Log.d("LOG_TAG", getString(R.string.insert_successful) + newRowId );
+        } else {
+            Log.d("LOG_TAG", getString(R.string.insert_unsuccessful));
+        }
 
     }
 }
