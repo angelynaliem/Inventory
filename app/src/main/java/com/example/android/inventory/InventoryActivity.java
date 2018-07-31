@@ -45,7 +45,7 @@ public class InventoryActivity extends AppCompatActivity {
         Cursor cursor = db.query(
                 InventoryEntry.TABLE_NAME,
                 projection,
-                InventoryEntry.COLUMN_INVENTORY_PRODUCT_NAME,
+                null,
                 null,
                 null,
                 null,
